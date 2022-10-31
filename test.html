@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test CORS</title>
+
+
+    <style>
+        body{
+            height: 300px;
+        }
+        #resultBox{
+            padding-top: 100px;
+            margin-left: 50%;
+
+            font-weight: bold;
+            font-size: 30px;
+        }
+
+        .gray { color: #151515; }
+        .red  { color:red; }
+        .green{ color: green; }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(function(){
+            testIt();
+        })
+
+        function testIt() 
+            {
+                username = 'dev';
+                password = 'ze(LaTh6ai';
+
+                console.log("nicks-cors-test");
+                $.ajax
+                ({
+                    url: "https://migrant.datarivers.org/articles/1/",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader ("Authorization", 
+                        "Basic " + btoa(username + ":" + password)
+                        );
+                    },
+                    error: function(err){
+                        console.log(err);
+                        $('#resultBox').removeClass("gray green").addClass("red").text('Error!');
+                    },
+                    success: function(data) 
+                    {
+                        console.log(data);
+                        $('#resultBox').removeClass("gray red").addClass("green").text('Success');
+                    }
+                });
+            }
+    </script>
+</head>
+<body>
+    <div id="resultBox" class="gray">Testing ...</div>
+</body>
+</html>
