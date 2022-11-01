@@ -11,13 +11,12 @@
         body{
             height: 300px;
         }
-        #resultBox{
-            padding-top: 100px;
-            margin-left: 50%;
-
-            font-weight: bold;
-            font-size: 30px;
+        #logResult{
+            width: 100%;
+            height: 100px;
+            text-align: left;
         }
+        #url{ width:250px }
 
         .gray { color: #151515; }
         .red  { color:red; }
@@ -26,8 +25,11 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-        $(function(){
-            testIt();
+        $( function(){
+            $('#url').on('change',function(){
+                $('#resultBox').text('Idle')
+            })
+            testIt()
         })
 
         function testIt() 
@@ -35,29 +37,39 @@
                 username = 'dev';
                 password = 'ze(LaTh6ai';
 
-                console.log("nicks-cors-test");
+                $('#resultBox').text('Requesting ...')
                 $.ajax
                 ({
-                    url: "https://migrant.datarivers.org/articles/1/",
+                    url: $('#url').val(),
+                    type: 'json',
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader ("Authorization", 
                         "Basic " + btoa(username + ":" + password)
                         );
                     },
-                    error: function(err){
-                        console.log(err);
-                        $('#resultBox').removeClass("gray green").addClass("red").text('Error!');
+                    error: function(xhr, status, error){
+                        console.log(xhr, status, error);
+                        $('#resultBox').removeClass("gray green").addClass("red").text('error!');
                     },
                     success: function(data) 
                     {
                         console.log(data);
-                        $('#resultBox').removeClass("gray red").addClass("green").text('Success');
+                        $('#logResult').text(data)
+                        $('#resultBox').removeClass("gray red").addClass("green").text('success');
                     }
                 });
+                return false
             }
     </script>
 </head>
 <body>
-    <div id="resultBox" class="gray">Testing ...</div>
+    <form action="" onsubmit="testIt(); return false;">
+        Url: <input type="text" id="url" value="https://migrant.datarivers.org/articles/1/" />
+        <button type="submit">Send Request</button>
+    </form>
+    <br>
+    <div>Status: <span id="resultBox" class="gray">Idle</span></div>
+    <br>
+    <div id="logResult"></div>
 </body>
 </html>
