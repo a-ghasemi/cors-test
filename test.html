@@ -6,70 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test CORS</title>
 
-
-    <style>
-        body{
-            height: 300px;
-        }
-        #logResult{
-            width: 100%;
-            height: 100px;
-            text-align: left;
-        }
-        #url{ width:250px }
-
-        .gray { color: #151515; }
-        .red  { color:red; }
-        .green{ color: green; }
-    </style>
+    <link rel="stylesheet" href="./main.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script>
-        $( function(){
-            $('#url').on('change',function(){
-                $('#resultBox').text('Idle')
-            })
-            testIt()
-        })
-
-        function testIt() 
-            {
-                username = 'dev';
-                password = 'ze(LaTh6ai';
-
-                $('#resultBox').text('Requesting ...')
-                $.ajax
-                ({
-                    url: $('#url').val(),
-                    type: 'json',
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader ("Authorization", 
-                        "Basic " + btoa(username + ":" + password)
-                        );
-                    },
-                    error: function(xhr, status, error){
-                        console.log(xhr, status, error);
-                        $('#resultBox').removeClass("gray green").addClass("red").text('error!');
-                    },
-                    success: function(data) 
-                    {
-                        console.log(data);
-                        $('#logResult').text(data)
-                        $('#resultBox').removeClass("gray red").addClass("green").text('success');
-                    }
-                });
-                return false
-            }
-    </script>
+    <script src="./main.js"></script>
 </head>
 <body>
-    <form action="" onsubmit="testIt(); return false;">
-        Url: <input type="text" id="url" value="https://migrant.datarivers.org/articles/1/" />
-        <button type="submit">Send Request</button>
-    </form>
-    <br>
-    <div>Status: <span id="resultBox" class="gray">Idle</span></div>
-    <br>
-    <div id="logResult"></div>
+    <div class="boxView basicAuth">
+        <span class="title">Basic Auth</span>
+        username: <input type="text" id="auth_user" />
+        <br>
+        password: <input type="text" id="auth_pass" />
+        <br>
+        <span class="note">Just leave these empty in case of no basic auth</span>
+    </div>
+    <div class="boxView">
+        <form action="" onsubmit="testIt(); return false;">
+            Method: <select id="method" class="form-element">
+                <option value="get" selected>GET</option>
+                <option value="post">POST</option>
+                <option value="put">PUT</option>
+                <option value="options">OPTIONS</option>
+                <option value="delete">DELETE</option>
+                <option value="patch">PATCH</option>
+            </select>
+            <br>
+            Url: <input class="form-element" type="text" id="url" value="http://migrant.datarivers.org:5000/articles/1/" />
+            <button type="submit">Send Request</button>
+        </form>
+    </div>
+    <hr>
+    <div class="boxView">
+        <span class="title">Request: </span>
+        <span id="requestBox" class="gray">---</span>
+    </div>
+    <div class="boxView">
+        <span class="title">Response: </span>
+        <div>Status: <span id="resultBox" class="gray">Idle</span></div>
+        <div id="logResult"></div>
+    </div>
 </body>
 </html>
