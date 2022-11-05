@@ -14,9 +14,9 @@
 <body>
     <div class="boxView basicAuth">
         <span class="title">Basic Auth</span>
-        username: <input type="text" id="auth_user" />
+        username: <input type="text" id="auth_user" value="<?php echo getenv('BASIC_AUTH_USERNAME'); ?>" />
         <br>
-        password: <input type="text" id="auth_pass" />
+        password: <input type="text" id="auth_pass" value="<?= getenv('BASIC_AUTH_PASSWORD'); ?>" />
         <br>
         <span class="note">Just leave these empty in case of no basic auth</span>
     </div>
@@ -32,6 +32,8 @@
             </select>
             <br>
             Url: <input class="form-element" type="text" id="url" value="http://migrant.datarivers.org:5000/articles/1/" />
+            <br>
+            Parameters: <textarea class="form-element" id="parameters" value=""" rows="3"></textarea>
             <button type="submit">Send Request</button>
         </form>
     </div>

@@ -29,6 +29,7 @@ body{
     min-height: 100px;
 }
 #url{ width:250px }
+#parameters{ display: none; }
 
 .gray { color: #151515; }
 .red  { color:red; }

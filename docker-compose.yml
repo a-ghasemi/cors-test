@@ -1,0 +1,19 @@
+version: '3.9'
+services:
+  app:
+    image: nginx:latest
+    ports:
+      - "${LOCAL_PORT:-8080}:80"
+    volumes:
+      - ./nginx/site.conf:/etc/nginx/conf.d/default.conf:ro
+#      - ./app:/usr/share/nginx/html:ro
+      - ./app:/app:ro
+    env_file: ./.env
+    depends_on:
+      - phpfpm
+
+  phpfpm:
+    image: bitnami/php-fpm:latest
+    env_file: ./.env
+    volumes:
+      - ./app:/app
